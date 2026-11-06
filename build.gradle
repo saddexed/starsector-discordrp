@@ -1,0 +1,89 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.saddexed'
+// mod_info.json holds the version; `gradlew.bat setVersion -Pv=0.2.0` updates it everywhere
+def versionPattern = ~/("version"\s*:\s*")([^"]+)(")/
+version = (file('mod_info.json').text =~ versionPattern)[0][2]
+
+// The game's own jars are compiled against but never bundled. Point `starsectorCore` at your
+// install's starsector-core folder in local.properties (ignored by Git), with -PstarsectorCore=...,
+// or with the STARSECTOR_CORE environment variable.
+def localProps = new Properties()
+def localFile = file('local.properties')
+if (localFile.exists()) localFile.withInputStream { localProps.load(it) }
+def starsectorCore = findProperty('starsectorCore') ?: localProps.getProperty('starsectorCore') ?: System.getenv('STARSECTOR_CORE')
+if (!starsectorCore) {
+    throw new GradleException('Set starsectorCore in local.properties to your Starsector starsector-core folder, '
+            + 'e.g. starsectorCore=C:/Games/Starsector/starsector-core')
+}
+def gameJars = files(['starfarer.api.jar', 'json.jar', 'log4j-1.2.9.jar', 'lwjgl.jar', 'lwjgl_util.jar']
+        .collect { new File(starsectorCore, it) })
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly gameJars
+
+    testImplementation gameJars
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // Starsector 0.98a's own classes are Java 17, so every player has at least that
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    archiveFileName = 'discordrp.jar'
+    destinationDirectory = file('jars')
+    manifest {
+        attributes('Implementation-Title': 'discord-rp', 'Implementation-Version': version)
+    }
+}
+
+// Zip players unpack into mods/: the mod files only, no sources or build files
+tasks.register('release', Zip) {
+    dependsOn jar
+    archiveFileName = "starsector-discordrp-${version}.zip"
+    destinationDirectory = layout.buildDirectory.dir('release')
+    into('starsector-discordrp') {
+        from('.') {
+            include 'mod_info.json', 'discordrp.version', 'Changelog', 'LICENSE'
+            include 'data/**', 'jars/discordrp.jar'
+        }
+    }
+}
+
+tasks.register('setVersion') {
+    doLast {
+        def v = findProperty('v')
+        def parts = v?.split(/\./)
+        if (parts?.length != 3) throw new GradleException('Usage: gradlew.bat setVersion -Pv=1.2.3')
+        def old = version
+
+        def modInfo = file('mod_info.json')
+        modInfo.text = modInfo.text.replaceFirst(versionPattern) { "${it[1]}${v}${it[3]}" }
+
+        def versionFile = file('discordrp.version')
+        def text = versionFile.text
+        ['major', 'minor', 'patch'].eachWithIndex { key, i ->
+            def value = parts[i].isInteger() ? parts[i] : "\"${parts[i]}\""
+            text = text.replaceFirst(/("${key}"\s*:\s*)("?[^",\s]+"?)/) { "${it[1]}${value}" }
+        }
+        versionFile.text = text.replace("/download/${old}/starsector-discordrp-${old}.zip",
+                "/download/${v}/starsector-discordrp-${v}.zip")
+
+        println "Version ${old} -> ${v}. Add a Changelog entry for ${v}."
+    }
+}

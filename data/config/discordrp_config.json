@@ -1,0 +1,24 @@
+{
+  "applicationId": "1566377564195397672",
+  "largeImage": "starsector_large",
+  "largeText": "Starsector",
+  "smallImage": "",
+  "smallText": "Starsector",
+  "drp_settingsKey": "F8",
+
+  "drp_showActivity": true,
+  "drp_showLocation": true,
+
+  "drp_showInfo": true,
+  "drp_infoStats": false,
+  "drp_showName": false,
+  "drp_showTitle": false,
+  "drp_showAverageCR": false,
+  "drp_showCredits": true,
+  "drp_showLevel": true,
+  "drp_showShipName": true,
+  "drp_showShipHull": true,
+  "drp_showFaction": false,
+
+  "drp_menuText": "Stargazing the Main Menu"
+}

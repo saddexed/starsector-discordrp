@@ -1,0 +1,11 @@
+{
+  "id": "saddexed_discordrp",
+  "name": "discord-rp",
+  "author": "saddexed",
+  "utility": true,
+  "version": "0.1.0",
+  "description": "Shows what you are doing in Starsector as your Discord status: activity, location, level, credits, flagship and more. Press F8 on the campaign map to choose what is shown.",
+  "gameVersion": "0.98a-RC8",
+  "jars": ["jars/discordrp.jar"],
+  "modPlugin": "com.saddexed.discordrp.DiscordRpModPlugin"
+}

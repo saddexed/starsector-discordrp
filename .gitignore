@@ -1,0 +1,26 @@
+# Gradle
+.gradle/
+build/
+
+# Built mod jar: attach it to releases instead of committing it
+jars/
+
+# Path to your Starsector install (see README)
+local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+bin/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local notes and agent instructions
+AGENTS.md
+CLAUDE.md
+TODO.md
+.claude/

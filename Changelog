@@ -1,0 +1,8 @@
+--------------------------- Changelog -----------------------------
+1.0.0
+Initial release
+Added - Discord status for the campaign: exploring, travelling, fleeing, pursued, interacting with fleets, docked / trading / refitting
+Added - Discord status in battle: enemy fleet and disengage progress, hull, armour and CR of the piloted ship; simulator and missions
+Added - Main menu card with the number of loaded mods
+Added - F8 settings dialog with live preview, choices apply to every save
+Added - Windows, Linux and macOS support (Flatpak and Snap Discord on Linux)

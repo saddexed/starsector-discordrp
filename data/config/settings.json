@@ -1,0 +1,5 @@
+{
+	"plugins":{
+		"saddexed_discordrp_combat":"com.saddexed.discordrp.CombatPresencePlugin",
+	},
+}
