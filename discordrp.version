@@ -3,13 +3,13 @@
     "modName":"discord-rp",
     "modVersion":
     {
-        "major":0,
-        "minor":1,
+        "major":1,
+        "minor":0,
         "patch":0
     },
 
     #Direct download of the release zip, fetched from the online version file
-    "directDownloadURL":"https://github.com/saddexed/starsector-discordrp/releases/download/0.1.0/starsector-discordrp-0.1.0.zip",
+    "directDownloadURL":"https://github.com/saddexed/starsector-discordrp/releases/download/1.0.0/starsector-discordrp-1.0.0.zip",
 
     #Changelog shown in-game, fetched from the online version file
     "changelogURL":"https://raw.githubusercontent.com/saddexed/starsector-discordrp/master/Changelog",
